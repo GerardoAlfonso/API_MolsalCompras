@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NGtzUaLHqFHwsSF/lWfPKXTX0j8ILXXdrRko5cnClv44q0U28z+gmA9JNLf4JTa23FO9OARVWTcUjIomkmzoVQ==",
+  "dgSpecHash": "sGADUWNev8atvNQ3AZbIOF0HqWLaOqFdRdDRTA0OZtDow3gmmxgzOWiHcalQ/5cHnt2U4pF67id2kvuG/PNmyg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gerar\\Desktop\\API_ComprasMolsal\\API_ComprasMosal\\API_ComprasMosal\\API_ComprasMosal.csproj",
+  "projectFilePath": "C:\\Users\\gerar\\Desktop\\API_ComprasMolsal\\API_MolsalCompras\\API_ComprasMosal\\API_ComprasMosal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gerar\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\gerar\\.nuget\\packages\\entityframework\\6.1.0\\entityframework.6.1.0.nupkg.sha512",

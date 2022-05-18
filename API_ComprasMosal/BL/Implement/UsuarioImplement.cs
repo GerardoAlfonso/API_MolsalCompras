@@ -18,12 +18,16 @@ namespace API_ComprasMosal.BL.Implement
             this.context = context;
         }
         #region CRUD
-        public void create(Usuario entity)
+        public int create(Usuario entity)
         {
             entity.FechaCreacion = DateTime.Now;
-            //entity.Token = null;
+            entity.Clave = Crypto.Encrypt(entity.Clave);
+            entity.Estado = 1;
+            entity.UsuarioCreacion = 1;
+            entity.UsuarioModificacion = 1;
             context.Usuario.Add(entity);
             context.SaveChanges();
+            return entity.idUsuario;
         }
 
         public void delete(Usuario entity)

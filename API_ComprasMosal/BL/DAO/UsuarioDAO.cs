@@ -14,5 +14,7 @@ namespace API_ComprasMosal.BL.DAO
 
         Usuario LogIn(Usuario usuarios);
         Usuario getUserInfo(string UserName);
+
+        int create(Usuario usuario);
     }
 }

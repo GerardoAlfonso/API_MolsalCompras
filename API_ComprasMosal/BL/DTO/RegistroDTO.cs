@@ -11,17 +11,17 @@ namespace API_ComprasMosal.BL.DTO
     {
 
         [Required(ErrorMessage = "El usuario no puede estar vacío.")]
-        public string username { get; set; }
+        public string NombreUsuario { get; set; }
 
-        [Required(ErrorMessage = "El correo no puede estar vacío.")]
+        //[Required(ErrorMessage = "El correo no puede estar vacío.")]
         public string email { get; set; }
 
         [Required(ErrorMessage = "La contraseña no debe estar vacía.")]
-        public string password { get; set; }
+        public string Clave { get; set; }
 
         [Compare("password", ErrorMessage = "Las contraseñas no coinciden.")]
         [NotMapped]
-        public string confirm_password { get; set; }
+        public string confirm_Clave { get; set; }
 
     }
 }

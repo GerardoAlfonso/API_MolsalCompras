@@ -74,12 +74,42 @@ namespace API_ComprasMosal.Controllers
             }
         }
 
-        public IActionResult CheckIn()
+
+        // registro de usuarios
+        [Route("CheckIn")]
+        public IActionResult CheckIn(RegistroDTO registro)
         {
-            throw new NotImplementedException();
+            LogInDTO log = new LogInDTO();
+            Usuario userInfo = usuarioDAO.getUserInfo(registro.NombreUsuario);
+            Usuario user = new Usuario();
+
+            try
+            {
+                if (userInfo != null)
+                {
+                    log.Message = "El nombre de usuario ya esta registrado en el sistema";
+                    log.Status = 0;
+                    return Ok(log);
+                }
+
+                //Registrar usuario
+                user.NombreUsuario = registro.NombreUsuario;
+                user.Clave = registro.Clave;
+                user.idUsuario = usuarioDAO.create(user);
+
+                //JWT
+                log.Token = JWT.create_token(user.NombreUsuario);
+                log.NombreUsuario = user.NombreUsuario;
+                log.Status = 1;
+                return Ok(log);
+            }
+            catch(Exception ex)
+            {
+                log.Status = 0;
+                log.Message = ex.Message;
+                return BadRequest(log);
+            }
         }
-
-
 
     }
 }
