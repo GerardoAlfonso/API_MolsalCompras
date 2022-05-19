@@ -1,4 +1,5 @@
 
+
 CREATE DATABASE MOLSAL_COMPRAS
 GO
 USE MOLSAL_COMPRAS
@@ -177,11 +178,28 @@ CREATE TABLE Compras (
 GO
 
 
+-----------------------------------------------------------------------------------
+CREATE OR ALTER VIEW Vw_ListadoCompras AS
+	SELECT F.idFactura, P.Nombre, F.Correlativo, F.Fecha, F.Total, F.Estado 
+  FROM Proveedor as P 
+  INNER JOIN Factura as F 
+    ON P.idProveedor = F.idProveedor
+GO
+
+CREATE OR ALTER VIEW Vw_DetalleCompra AS
+	SELECT DF.idFactura, prod.Nombre as Producto, DF.Cantidad, DF.PrecioVenta, DF.CostoUnitario 
+  FROM Proveedor as P 
+  INNER JOIN DetalleFactura as DF 
+    ON P.idProveedor = DF.idFactura 
+  INNER JOIN Producto as prod 
+    ON DF.idProducto = prod.idProducto
+GO
+
+
+-----------------------------------------------------------------------------------
+
 INSERT INTO Usuario(NombreUsuario, Clave, Estado, FechaCreacion, FechaModificacion)
-VALUES('Gerardo', 'asdfasdf', 1, SYSDATETIME(), SYSDATETIME())
-
-Select * from Factura
-
+VALUES('Ale', 'MQAyADMA', 1, SYSDATETIME(), SYSDATETIME())
 
 insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
 values (1 ,'A01', GETDATE(), 523.34, 1, GETDATE(), GETDATE())
@@ -200,12 +218,6 @@ values (1 ,'A07', GETDATE(), 345.45, 1, GETDATE(), GETDATE())
 insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
 values (2 ,'A08', GETDATE(), 4365.21, 1, GETDATE(), GETDATE())
 
-
-
-
-
-SELECT * FROM Compras
-
 insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
 values ( 1, 1 ,'A01', GETDATE(), 523.34, 1, GETDATE(), GETDATE())
 insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
@@ -223,10 +235,6 @@ values (7, 1 ,'A07', GETDATE(), 345.45, 1, GETDATE(), GETDATE())
 insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
 values (8, 2 ,'A08', GETDATE(), 4365.21, 1, GETDATE(), GETDATE())
 
-
-
-SELECT * FROM DetalleFactura
-
 insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
 values (1, 1, 12, 523.34, 43.61, 1, GETDATE())
 insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
@@ -240,5 +248,17 @@ values (2, 1, 19, 99.01, 64.78, 1, GETDATE())
 insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
 values (2, 2, 23, 49.99 , 27.68, 1, GETDATE())
 
+insert into Proveedor (Nombre, Estado, NIT, RazonSocial, Direccion, Telefono, UsuarioCreacion, FechaCreacion)
+values ('Kevin y asociados', 1, '1234-121212-123-1', 'Distribuidora central','San Salvador centro n123', '2222-5445', 1, GETDATE())
+insert into Proveedor (Nombre, Estado, NIT, RazonSocial, Direccion, Telefono, UsuarioCreacion, FechaCreacion)
+values ('La milagrosa', 1, '2342-513245-654-9', 'Fabrica la milagrosa S.A DE C.V','San Salvador centro n533', '2112-3545', 1, GETDATE())
+
+insert into Producto (idBodega, Nombre, Descripcion, Precio, CostoUnitario, Estado, UsuarioCreacion, FechaCreacion)
+values (1, 'RESMA PAPEL BOND A4', '', 1.99, 1.99, 1, 1, GETDATE()) 
+insert into Producto (idBodega, Nombre, Descripcion, Precio, CostoUnitario, Estado, UsuarioCreacion, FechaCreacion)
+values (1, 'CARTUCHO IMPRESORA HP', '', 29.34, 29.34, 1, 1, GETDATE()) 
 
 
+
+
+																											  

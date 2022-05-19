@@ -36,6 +36,10 @@ namespace API_ComprasMosal.BL.Implement
         {
             return context.Factura.Where(f => f.idProveedor == Id).FirstOrDefault();
         }
+        public IEnumerable<string> GetById_2(long Id)
+        {
+            return (IEnumerable<string>)context.Factura.Where(f => f.idProveedor == Id);
+        }
 
         public void Update(Factura DBEntity, Factura entity)
         {

@@ -17,12 +17,17 @@ namespace API_ComprasMosal.Controllers
     public class ComprasController : ControllerBase
     {
         private readonly FacturaDAO facturaDAO;
+        private readonly Vw_ListadoComprasDAO listadoCompradDAO;
+        private readonly Vw_DetalleCompraDAO detalleCompraDAO;
         private readonly DetalleFacturaDAO detalleFacturaDAO;
-        public ComprasController(FacturaDAO _facturaDAO, DetalleFacturaDAO _detalleFacturaDAO)
+        public ComprasController(FacturaDAO _facturaDAO, DetalleFacturaDAO _detalleFacturaDAO, Vw_ListadoComprasDAO _Vw_listadoComprasDAO, Vw_DetalleCompraDAO _detalleCompraDAO)
         {
             facturaDAO = _facturaDAO;
             detalleFacturaDAO = _detalleFacturaDAO;
+            listadoCompradDAO = _Vw_listadoComprasDAO;
+            detalleCompraDAO = _detalleCompraDAO;
         }
+
         [HttpGet]
         [Route("ListarCompras")]
         public IActionResult ListarCompras()
@@ -30,15 +35,15 @@ namespace API_ComprasMosal.Controllers
             Reply rp = new Reply();
             try
             {
-                IEnumerable<Factura> factura = facturaDAO.GetAll();
-                if(factura.Count() == 0)
+                IEnumerable<Vw_ListadoCompras> listadoCompras= listadoCompradDAO.GetAll();
+                if(listadoCompras.Count() == 0)
                 {
                     rp.Status = 0;
                     rp.Message = "No hay informacion para mostrar";
                     return Ok(rp);
                 }
                 rp.Status = 1;
-                rp.Data = factura;
+                rp.Data = listadoCompras;
                 return Ok(rp);
             }
             catch(Exception ex)
@@ -57,22 +62,29 @@ namespace API_ComprasMosal.Controllers
             DetalleCompraDTO DetalleCompra = new DetalleCompraDTO();
             try
             {
-                Factura factura = facturaDAO.GetById(Id);
-                if(factura == null)
+                //Validar si la factura existe
+                Vw_ListadoCompras factura = listadoCompradDAO.GetById(Id);
+                if (factura == null)
                 {
                     rp.Status = 0;
                     rp.Message = "No se encontro la factura";
                     return Ok(rp);
                 }
-                IEnumerable<DetalleFactura> detalleFactura = detalleFacturaDAO.GetDetalleFactura(Id);
-                if(detalleFactura.Count() == 0)
+                // guardar informacion de factura en DTO
+                DetalleCompra.Factura = factura;
+
+                //obtener los detalles de la factura
+                IEnumerable<Vw_DetalleCompra> detalleCompra = detalleCompraDAO.GetAll();
+                if(detalleCompra.Count() == 0)
                 {
                     rp.Status = 0;
+                    rp.Data = DetalleCompra;
                     rp.Message = "No se encontro informacion sobre el detalle de la compra";
                     return Ok(rp);
                 }
-                DetalleCompra.Factura = factura;
-                DetalleCompra.DetalleCompra = detalleFactura;
+
+                //guardar detalle compra en DTO
+                DetalleCompra.DetalleCompra = detalleCompra;
                 rp.Data = DetalleCompra;
                 rp.Status = 1;
                 return Ok(rp);
@@ -81,6 +93,7 @@ namespace API_ComprasMosal.Controllers
             {
                 rp.Status = 0;
                 rp.Message = ex.Message;
+                rp.Data = null;
                 return BadRequest(rp);
             }
         }
