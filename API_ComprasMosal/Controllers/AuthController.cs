@@ -95,7 +95,7 @@ namespace API_ComprasMosal.Controllers
                 //Registrar usuario
                 user.NombreUsuario = registro.NombreUsuario;
                 user.Clave = registro.Clave;
-                user.idUsuario = usuarioDAO.create(user);
+                user.idUsuario = usuarioDAO.Create(user);
 
                 //JWT
                 log.Token = JWT.create_token(user.NombreUsuario);

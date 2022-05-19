@@ -18,7 +18,7 @@ namespace API_ComprasMosal.BL.Implement
             this.context = context;
         }
         #region CRUD
-        public int create(Usuario entity)
+        public int Create(Usuario entity)
         {
             entity.FechaCreacion = DateTime.Now;
             entity.Clave = Crypto.Encrypt(entity.Clave);
@@ -30,13 +30,13 @@ namespace API_ComprasMosal.BL.Implement
             return entity.idUsuario;
         }
 
-        public void delete(Usuario entity)
+        public void Delete(Usuario entity)
         {
             context.Usuario.Remove(entity);
             context.SaveChanges();
         }
 
-        public void update(Usuario DBEntity, Usuario entity)
+        public void Update(Usuario DBEntity, Usuario entity)
         {
             DBEntity.NombreUsuario = entity.NombreUsuario;
             DBEntity.FechaModificacion = entity.FechaModificacion;
@@ -44,14 +44,14 @@ namespace API_ComprasMosal.BL.Implement
             context.SaveChanges();
         }
 
-        public IEnumerable<Usuario> getAll()
+        public IEnumerable<Usuario> GetAll()
         {
             return context.Usuario
                 .Where(u => u.Estado == 1)
                 .ToList();
         }
 
-        public Usuario getById(long Id)
+        public Usuario GetById(long Id)
         {
             return context.Usuario
                 .FirstOrDefault(e => e.idUsuario == Id);

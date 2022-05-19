@@ -14,14 +14,14 @@ namespace API_ComprasMosal.BL.DTO
         public string NombreUsuario { get; set; }
 
         //[Required(ErrorMessage = "El correo no puede estar vacío.")]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "La contraseña no debe estar vacía.")]
         public string Clave { get; set; }
 
-        [Compare("password", ErrorMessage = "Las contraseñas no coinciden.")]
+        [Compare("Clave", ErrorMessage = "Las contraseñas no coinciden.")]
         [NotMapped]
-        public string confirm_Clave { get; set; }
+        public string Confirm_Clave { get; set; }
 
     }
 }
