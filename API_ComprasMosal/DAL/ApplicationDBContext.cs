@@ -11,7 +11,10 @@ namespace API_ComprasMosal.DAL
 
 
         //Auth
-        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Usuario>Usuario { get; set; }
+        public DbSet<Factura>Factura { get; set; }
+        public DbSet<DetalleFactura>DetalleFactura { get; set; }
+
         //public DbSet<Bodega> Bodega { get; set; }
         //public DbSet<Catalogo> Catalogo { get; set; }
         //public DbSet<CatalogoDetalle> CatalogoDetalle { get; set; }

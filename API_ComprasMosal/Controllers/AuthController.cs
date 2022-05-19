@@ -25,7 +25,7 @@ namespace API_ComprasMosal.Controllers
         }
 
         [Route("Login")]
-        public IActionResult LogIn(Usuario login)
+        public IActionResult LogIn([FromBody] Usuario login)
         {
             LogInDTO log = new LogInDTO();
             try
@@ -77,7 +77,7 @@ namespace API_ComprasMosal.Controllers
 
         // registro de usuarios
         [Route("CheckIn")]
-        public IActionResult CheckIn(RegistroDTO registro)
+        public IActionResult CheckIn([FromBody] RegistroDTO registro)
         {
             LogInDTO log = new LogInDTO();
             Usuario userInfo = usuarioDAO.getUserInfo(registro.NombreUsuario);

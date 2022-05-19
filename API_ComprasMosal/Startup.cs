@@ -57,6 +57,8 @@ namespace API_ComprasMosal
             });
 
             services.AddScoped<UsuarioDAO, UsuarioImplement>();
+            services.AddScoped<FacturaDAO, FacturaImplement>();
+            services.AddScoped<DetalleFacturaDAO, DetalleFacturaImplement>();
             //services.AddScoped<BodegaDAO, BodegaImplement>();
 
 

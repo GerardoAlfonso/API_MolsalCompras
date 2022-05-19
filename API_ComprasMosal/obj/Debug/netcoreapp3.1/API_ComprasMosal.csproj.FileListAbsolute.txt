@@ -163,3 +163,4 @@ C:\Users\gerar\Desktop\API_ComprasMolsal\API_MolsalCompras\API_ComprasMosal\obj\
 C:\Users\gerar\Desktop\API_ComprasMolsal\API_MolsalCompras\API_ComprasMosal\obj\Debug\netcoreapp3.1\API_ComprasMosal.dll
 C:\Users\gerar\Desktop\API_ComprasMolsal\API_MolsalCompras\API_ComprasMosal\obj\Debug\netcoreapp3.1\API_ComprasMosal.pdb
 C:\Users\gerar\Desktop\API_ComprasMolsal\API_MolsalCompras\API_ComprasMosal\obj\Debug\netcoreapp3.1\API_ComprasMosal.genruntimeconfig.cache
+C:\Users\gerar\Desktop\API_ComprasMolsal\API_MolsalCompras\API_ComprasMosal\obj\Debug\netcoreapp3.1\API_ComprasMosal.csproj.AssemblyReference.cache

@@ -7,7 +7,7 @@ CREATE SCHEMA Auth AUTHORIZATION db_owner
 GO
 
 
-CREATE TABLE [Auth].[Usuario]
+CREATE TABLE [Usuario]
 (
     [idUsuario][INT] identity(1,1),
     [CodDetaRol][INT],
@@ -29,10 +29,10 @@ CREATE TABLE [Bodega]
   [Direccion][VARCHAR](200) NULL,
   [Telefono][VARCHAR](10) NULL,
   [Estado][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DATETIME] NULL,
-  [FechaModificacion][DATETIME] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 ) 
 GO
 
@@ -41,10 +41,10 @@ CREATE TABLE [Catalogo]
   [idCatalogo][int] IDENTITY(1,1) NOT NULL,
   [Descripcion][VARCHAR](200) NULL,
   [Estado][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -54,10 +54,10 @@ CREATE TABLE CatalogoDetalle
   [idCatalogo][int] NULL,
   [Descripcion][varchar](200) NULL,
   [Estado][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -68,10 +68,10 @@ CREATE TABLE DetalleFactura (
   [Cantidad][int] NULL,
   [PrecioVenta][float] NULL,
   [CostoUnitario][float] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -85,10 +85,10 @@ CREATE TABLE Directorio (
   [DUI][varchar](10) NULL,
   [Correo][varchar](100) NULL,
   [Estado][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 
 )
 GO
@@ -99,24 +99,24 @@ CREATE TABLE Existencia
   [idProducto][int] NULL,
   [Estado][int] NULL,
   [Cantidad][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
 CREATE TABLE Factura (
   [idFactura][int] IDENTITY(1,1) NOT NULL,
   [idProveedor][int] NULL,
-  [Correlativo][int] NULL,
+  [Correlativo][VARCHAR](100) NULL,
   [Fecha][datetime] NULL,
   [Total][float] NULL,
   [Estado] int NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -125,10 +125,10 @@ CREATE TABLE Kardex (
   [idProducto][int] NULL,
   [idFactura][int] NULL,
   [Cantidad][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -140,10 +140,10 @@ CREATE TABLE Producto (
   [Precio][float]  NULL,
   [CostoUnitario][float] NULL,
   [Estado][int] NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
@@ -155,15 +155,90 @@ CREATE TABLE Proveedor (
   [RazonSocial][varchar](100) NULL,
   [Direccion][varchar](200) NULL,
   [Telefono][varchar](10) NULL,
-  [UsuarioCreacion][VARCHAR](100) NULL,
-  [UsuarioModificacion][VARCHAR](100) NULL,
-  [FechaCreacion][DateTime] NULL,
-  [FechaModificacion][DateTime] NULL
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
+)
+GO
+
+CREATE TABLE Compras (
+  [idCompra]int IDENTITY(1,1) NOT NULL,
+  [idFactura][int],
+  [idProveedor][int],
+  [Correlativo][varchar](100),
+  [Fecha][DateTime],
+  [Total][Float],
+  [UsuarioCreacion][int],
+  [UsuarioModificacion][int],
+  [FechaCreacion][DateTime],
+  [FechaModificacion][DateTime]
 )
 GO
 
 
+INSERT INTO Usuario(NombreUsuario, Clave, Estado, FechaCreacion, FechaModificacion)
+VALUES('Gerardo', 'asdfasdf', 1, SYSDATETIME(), SYSDATETIME())
+
+Select * from Factura
 
 
--- INSERT INTO Auth.Usuario(NombreUsuario, Clave, Estado, FechaCreacion, FechaModificacion)
--- VALUES('Gerardo', 'asdfasdf', 1, SYSDATETIME(), SYSDATETIME())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (1 ,'A01', GETDATE(), 523.34, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (1 ,'A02', GETDATE(), 1234.32, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (2 ,'A03', GETDATE(), 2341.45, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (1 ,'A04', GETDATE(), 253.21, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (2 ,'A05', GETDATE(), 2345.34, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (2 ,'A06', GETDATE(), 543.32, 1, GETDATE(), GETDATE())
+insert into Factura(  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (1 ,'A07', GETDATE(), 345.45, 1, GETDATE(), GETDATE())
+insert into Factura (  idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (2 ,'A08', GETDATE(), 4365.21, 1, GETDATE(), GETDATE())
+
+
+
+
+
+SELECT * FROM Compras
+
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values ( 1, 1 ,'A01', GETDATE(), 523.34, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values ( 2, 1 ,'A02', GETDATE(), 1234.32, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values ( 3, 2 ,'A03', GETDATE(), 2341.45, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values ( 4, 1 ,'A04', GETDATE(), 253.21, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (5, 2 ,'A05', GETDATE(), 2345.34, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (6, 2 ,'A06', GETDATE(), 543.32, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (7, 1 ,'A07', GETDATE(), 345.45, 1, GETDATE(), GETDATE())
+insert into Compras ( idFactura, idProveedor, Correlativo, Fecha, Total, UsuarioCreacion, FechaCreacion, FechaModificacion)
+values (8, 2 ,'A08', GETDATE(), 4365.21, 1, GETDATE(), GETDATE())
+
+
+
+SELECT * FROM DetalleFactura
+
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (1, 1, 12, 523.34, 43.61, 1, GETDATE())
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (1, 2, 1, 10, 10, 1, GETDATE())
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (1, 1, 12, 523.34, 43.61, 1, GETDATE())
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (2, 1, 13, 152.13, 105.40, 1, GETDATE())
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (2, 1, 19, 99.01, 64.78, 1, GETDATE())
+insert into DetalleFactura (idFactura, idProducto, Cantidad, PrecioVenta, CostoUnitario, UsuarioCreacion, FechaCreacion)
+values (2, 2, 23, 49.99 , 27.68, 1, GETDATE())
+
+
+
