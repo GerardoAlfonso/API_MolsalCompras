@@ -61,6 +61,7 @@ namespace API_ComprasMosal
             services.AddScoped<DetalleFacturaDAO, DetalleFacturaImplement>();
             services.AddScoped<Vw_ListadoComprasDAO, Vw_ListadoComprasImplement>();
             services.AddScoped<Vw_DetalleCompraDAO, Vw_DetalleCompraImplement>();
+            services.AddScoped<ProveedorDAO, ProveedorImplement>();
 
             //services.AddScoped<BodegaDAO, BodegaImplement>();
 

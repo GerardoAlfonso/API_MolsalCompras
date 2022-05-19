@@ -35,8 +35,8 @@ namespace API_ComprasMosal.Controllers
             Reply rp = new Reply();
             try
             {
-                IEnumerable<Vw_ListadoCompras> listadoCompras= listadoCompradDAO.GetAll();
-                if(listadoCompras.Count() == 0)
+                IEnumerable<Vw_ListadoCompras> listadoCompras = listadoCompradDAO.GetAll();
+                if (listadoCompras.Count() == 0)
                 {
                     rp.Status = 0;
                     rp.Message = "No hay informacion para mostrar";
@@ -46,7 +46,7 @@ namespace API_ComprasMosal.Controllers
                 rp.Data = listadoCompras;
                 return Ok(rp);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 rp.Status = 0;
                 rp.Message = ex.Message;
@@ -75,7 +75,7 @@ namespace API_ComprasMosal.Controllers
 
                 //obtener los detalles de la factura
                 IEnumerable<Vw_DetalleCompra> detalleCompra = detalleCompraDAO.GetAll();
-                if(detalleCompra.Count() == 0)
+                if (detalleCompra.Count() == 0)
                 {
                     rp.Status = 0;
                     rp.Data = DetalleCompra;
@@ -89,7 +89,7 @@ namespace API_ComprasMosal.Controllers
                 rp.Status = 1;
                 return Ok(rp);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 rp.Status = 0;
                 rp.Message = ex.Message;
@@ -97,5 +97,32 @@ namespace API_ComprasMosal.Controllers
                 return BadRequest(rp);
             }
         }
+
+        [HttpPost]
+        [Route("NuevaFactura")]
+        public IActionResult GuardarCompra([FromBody] Factura factura)
+        {
+            Reply rp = new Reply();
+            try
+            {
+                Factura fac = new Factura();
+                fac.idFactura = facturaDAO.Create(factura);
+
+                rp.Data = fac;
+                rp.Status = 1;
+                rp.Message = "Factura creada con exito";
+
+                return Ok(rp);
+            }
+            catch (Exception ex)
+            {
+                rp.Data = null;
+                rp.Status = 0;
+                rp.Message = ex.Message;
+                return BadRequest(rp);
+            }
+        }
     }
+
+        
 }

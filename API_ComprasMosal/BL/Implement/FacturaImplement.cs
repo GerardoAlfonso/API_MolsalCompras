@@ -19,7 +19,15 @@ namespace API_ComprasMosal.BL.Implement
 
         public int Create(Factura entity)
         {
-            throw new NotImplementedException();
+            entity.idProveedor = 1;
+            entity.Fecha = DateTime.Now;
+            entity.Estado = 1;
+            entity.UsuarioCreacion = 1;
+            entity.FechaCreacion = DateTime.Now;
+
+            context.Factura.Add(entity);
+            context.SaveChanges();
+            return (int)entity.idFactura;
         }
 
         public void Delete(Factura entity)
