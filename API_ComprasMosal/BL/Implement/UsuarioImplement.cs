@@ -1,11 +1,10 @@
-﻿using API_ComprasMosal.BL.DAO;
-using API_ComprasMosal.BL.Models;
+﻿using API_ComprasMosal.BL.Models;
 using API_ComprasMosal.DAL;
-using API_ComprasMosal.Management;
-using System;
+using API_Delivery.BL.DAO;
+using API_Delivery.BL.DTO.Request;
+using API_Delivery.BL.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_ComprasMosal.BL.Implement
 {
@@ -20,11 +19,11 @@ namespace API_ComprasMosal.BL.Implement
         #region CRUD
         public int Create(Usuario entity)
         {
-            entity.FechaCreacion = DateTime.Now;
-            entity.Clave = Crypto.Encrypt(entity.Clave);
+            //entity.FechaCreacion = DateTime.Now;
+            entity.clave = entity.clave;
             entity.Estado = 1;
-            entity.UsuarioCreacion = 1;
-            entity.UsuarioModificacion = 1;
+            //entity.UsuarioCreacion = 1;
+            //entity.UsuarioModificacion = 1;
             context.Usuario.Add(entity);
             context.SaveChanges();
             return entity.idUsuario;
@@ -38,9 +37,9 @@ namespace API_ComprasMosal.BL.Implement
 
         public void Update(Usuario DBEntity, Usuario entity)
         {
-            DBEntity.NombreUsuario = entity.NombreUsuario;
-            DBEntity.FechaModificacion = entity.FechaModificacion;
-            DBEntity.UsuarioModificacion = entity.UsuarioModificacion;
+            DBEntity.nombreUsuario = entity.nombreUsuario;
+            //DBEntity.FechaModificacion = entity.FechaModificacion;
+            //DBEntity.UsuarioModificacion = entity.UsuarioModificacion;
             context.SaveChanges();
         }
 
@@ -75,25 +74,62 @@ namespace API_ComprasMosal.BL.Implement
         {
             Usuario user = context.Usuario.Find(entity.idUsuario);
             user.Estado = entity.Estado;
-            user.FechaModificacion = entity.FechaModificacion;
-            user.UsuarioModificacion = entity.UsuarioModificacion;
+            //user.FechaModificacion = entity.FechaModificacion;
+            //user.UsuarioModificacion = entity.UsuarioModificacion;
             context.SaveChanges();
         }
 
         #endregion
 
-        public Usuario LogIn(Usuario usuarios)
+        public Usuario? LogIn(LogInDTO usuarios)
         {
-            Usuario _user = context.Usuario
-                .FirstOrDefault(e => e.NombreUsuario == usuarios.NombreUsuario && e.Clave == Crypto.Encrypt(usuarios.Clave) && e.Estado == 1);
+            Usuario dto = new Usuario();
 
-            return _user;
+            var query =
+                from user in context.Usuario
+                join dir in context.Directorio on user.idDirectorio equals dir.idDirectorio
+                where dir.Email == usuarios.email && user.clave == usuarios.clave
+                select new
+                {
+                    idUsuario = user.idUsuario,
+                    nombreUsuario = user.nombreUsuario,
+                    nombre = dir.Nombre + " " + dir.Apellido,
+                    Estado = user.Estado
+
+                };
+
+            if (query.Count() != 0)
+            {
+                foreach (var item in query)
+                {
+                    dto.nombreUsuario = item.nombreUsuario;
+                    dto.Estado = item.Estado;
+                    dto.idUsuario = item.idUsuario;
+                }
+                return dto;
+            }
+            else
+            {
+                return null;
+            }
+
+
+
         }
 
-        public Usuario getUserInfo(string NombreUsuario)
+
+
+        public Directorio getUserInfoDir(string email)
         {
-            return context.Usuario
-                .FirstOrDefault(e => e.NombreUsuario == NombreUsuario);
+            return context.Directorio
+                .FirstOrDefault(e => e.Email == email);
+        }
+
+
+        public Directorio getUserInfo(string email)
+        {
+            return context.Directorio
+                .FirstOrDefault(e => e.Email == email);
         }
     }
 }

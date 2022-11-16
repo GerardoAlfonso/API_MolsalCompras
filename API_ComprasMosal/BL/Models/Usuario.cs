@@ -13,15 +13,10 @@ namespace API_ComprasMosal.BL.Models
     {
         [Key]
         public int idUsuario { get; set; }
-        public int? CodDetaRol { get; set; }
-        public int? idDirectorio { get; set; }
-        public string? NombreUsuario { get; set; }
-        public string? Clave { get; set; }
-        public int? Estado { get; set; }
-        public int? UsuarioCreacion { get; set; }
-        public int? UsuarioModificacion { get; set; }
-        public DateTime? FechaCreacion { get; set; }
-        public DateTime? FechaModificacion { get; set; }
+        public int idDirectorio { get; set; }
+        public string nombreUsuario { get; set; }
+        public string clave { get; set; }
+        public int Estado { get; set; }
 
 
     }

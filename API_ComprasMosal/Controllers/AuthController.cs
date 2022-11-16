@@ -1,14 +1,13 @@
-﻿using API_ComprasMosal.BL.DAO;
-using API_ComprasMosal.BL.DTO;
-using API_ComprasMosal.BL.Models;
-using API_ComprasMosal.Management;
-using Microsoft.AspNetCore.Authorization;
+﻿using API_Delivery.BL.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API_ComprasMosal.BL.Models;
+using API_Delivery.BL.DAO;
+using API_Delivery.BL.DTO.Response;
+using Microsoft.AspNetCore.Http;
+using API_Delivery.BL.DTO.Request;
+using API_Delivery.BL.Models;
 
 namespace API_ComprasMosal.Controllers
 {
@@ -25,91 +24,91 @@ namespace API_ComprasMosal.Controllers
         }
 
         [Route("Login")]
-        public IActionResult LogIn([FromBody] Usuario login)
+        public IActionResult LogIn([FromBody] LogInDTO login)
         {
-            LogInDTO log = new LogInDTO();
             try
             {
-                Usuario usuario = usuarioDAO.getUserInfo(login.NombreUsuario);
-                if (usuario != null)
+                Directorio directorio = usuarioDAO.getUserInfoDir(login.email);
+                if (directorio != null)
                 {
-                    //Se valida que el usuario esté activo
-                    if (usuario.Estado == 1)
+                    Usuario _loggedUser = usuarioDAO.LogIn(login);
+                    if (_loggedUser != null)
                     {
-                        Usuario _loggedUser = usuarioDAO.LogIn(login);
-                        if (_loggedUser != null)
+                        //Se valida que el usuario esté activo
+                        if (_loggedUser.Estado == 1)
                         {
-                            //JWT
-                            log.Token = JWT.create_token(_loggedUser.NombreUsuario);
-                            log.NombreUsuario = _loggedUser.NombreUsuario;
-                            log.Status = 1;
-                            return Ok(log);
+                            LoginResponseDTO dataDTO = new LoginResponseDTO();
+                            dataDTO.nombre = directorio.Nombre + " " + directorio.Apellido;
+                            dataDTO.idUsuario = _loggedUser.idUsuario;
+                            dataDTO.nombreUsuario = _loggedUser.nombreUsuario;
+
+                            return Ok(dataDTO);
                         }
                         else
                         {
-                            log.Message = "Datos incorrectos, revise usuario y contraseña.";
-                            log.Status = 0;
-                            return Ok(log);
-                        }
+                            BadRequestDTO badRequestDTO = new BadRequestDTO();
+                            badRequestDTO.message = "El usuario se encuentra inactivo";
+                            return BadRequest(badRequestDTO);
+                        }  
                     }
                     else
                     {
-                        log.Message = "El usuario se encuentra inactivo";
-                        log.Status = 0;
-                        return Ok(log);
+                        BadRequestDTO badRequestDTO = new BadRequestDTO();
+                        badRequestDTO.message = "Datos incorrectos, revise usuario y contraseña.";
+                        return BadRequest(badRequestDTO);
                     }
                 }
                 else
                 {
-                    log.Message = "No se encontro el usuario";
-                    log.Status = 0;
-                    return Ok(log);
+                    BadRequestDTO badRequestDTO = new BadRequestDTO();
+                    badRequestDTO.message = "No se encontro el usuario";
+                    return BadRequest(badRequestDTO);
                 }
             }
             catch(Exception ex)
             {
-                log.Message = ex.Message;
-                log.Status = 0;
-                return BadRequest(log);
+                BadRequestDTO badRequestDTO = new BadRequestDTO();
+                badRequestDTO.message = "Internal Server Error... " + ex.ToString().Substring(1,100);
+                return StatusCode(StatusCodes.Status500InternalServerError, badRequestDTO);
             }
         }
 
 
-        // registro de usuarios
-        [Route("CheckIn")]
-        public IActionResult CheckIn([FromBody] RegistroDTO registro)
-        {
-            LogInDTO log = new LogInDTO();
-            Usuario userInfo = usuarioDAO.getUserInfo(registro.NombreUsuario);
-            Usuario user = new Usuario();
+        //// registro de usuarios
+        //[Route("CheckIn")]
+        //public IActionResult CheckIn([FromBody] RegistroDTO registro)
+        //{
+        //    LogInDTO log = new LogInDTO();
+        //    Usuario userInfo = usuarioDAO.getUserInfo(registro.NombreUsuario);
+        //    Usuario user = new Usuario();
 
-            try
-            {
-                if (userInfo != null)
-                {
-                    log.Message = "El nombre de usuario ya esta registrado en el sistema";
-                    log.Status = 0;
-                    return Ok(log);
-                }
+        //    try
+        //    {
+        //        if (userInfo != null)
+        //        {
+        //            log.Message = "El nombre de usuario ya esta registrado en el sistema";
+        //            log.Status = 0;
+        //            return Ok(log);
+        //        }
 
-                //Registrar usuario
-                user.NombreUsuario = registro.NombreUsuario;
-                user.Clave = registro.Clave;
-                user.idUsuario = usuarioDAO.Create(user);
+        //        //Registrar usuario
+        //        user.nombreUsuario = registro.NombreUsuario;
+        //        user.clave = registro.Clave;
+        //        user.idUsuario = usuarioDAO.Create(user);
 
-                //JWT
-                log.Token = JWT.create_token(user.NombreUsuario);
-                log.NombreUsuario = user.NombreUsuario;
-                log.Status = 1;
-                return Ok(log);
-            }
-            catch(Exception ex)
-            {
-                log.Status = 0;
-                log.Message = ex.Message;
-                return BadRequest(log);
-            }
-        }
+        //        //JWT
+        //        //log.Token = JWT.create_token(user.NombreUsuario);
+        //        log.NombreUsuario = user.nombreUsuario;
+        //        log.Status = 1;
+        //        return Ok(log);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        log.Status = 0;
+        //        log.Message = ex.Message;
+        //        return BadRequest(log);
+        //    }
+        //}
 
     }
 }

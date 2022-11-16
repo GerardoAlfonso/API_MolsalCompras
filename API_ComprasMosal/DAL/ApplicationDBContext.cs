@@ -1,4 +1,5 @@
 using API_ComprasMosal.BL.Models;
+using API_Delivery.BL.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_ComprasMosal.DAL
@@ -12,21 +13,20 @@ namespace API_ComprasMosal.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Vw_ListadoCompras>()
-                .HasNoKey()
-                .ToView("Vw_ListadoCompras");
-            modelBuilder.Entity<Vw_DetalleCompra>()
-                .HasNoKey()
-                .ToView("Vw_DetalleCompra");
+            //modelBuilder.Entity<Vw_ListadoCompras>()
+            //    .HasNoKey()
+            //    .ToView("Vw_ListadoCompras");
+            //modelBuilder.Entity<Vw_DetalleCompra>()
+            //    .HasNoKey()
+            //    .ToView("Vw_DetalleCompra");
         }
 
         //Auth
-        public DbSet<Usuario>Usuario { get; set; }
-        public DbSet<Factura>Factura { get; set; }
-        public DbSet<DetalleFactura>DetalleFactura { get; set; }
-        public DbSet<Proveedor> Proveedor { get; set; }
-        public DbSet<Vw_ListadoCompras> Vw_ListadoCompras { get; set; }
-        public DbSet<Vw_DetalleCompra> Vw_DetalleCompra { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Directorio> Directorio { get; set; }
+        public DbSet<Articulo> Articulo { get; set; }
+
+
 
         //public DbSet<Bodega> Bodega { get; set; }
         //public DbSet<Catalogo> Catalogo { get; set; }

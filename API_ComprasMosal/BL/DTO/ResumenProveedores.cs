@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_ComprasMosal.BL.DTO
+namespace API_Delivery.BL.DTO
 {
     public class ResumenProveedores
     {

@@ -1,22 +1,18 @@
-using API_ComprasMosal.BL.DAO;
 using API_ComprasMosal.BL.Implement;
 using API_ComprasMosal.DAL;
+using API_Delivery.BL.DAO;
+using API_Delivery.BL.Implement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 
 namespace API_ComprasMosal
@@ -38,7 +34,7 @@ namespace API_ComprasMosal
             services.AddHttpContextAccessor();
             //conection string
             //services.AddDbContext<ApplicationDBContext>(opts => opts.UseMySQL(Configuration["ConnectionStrings:MOLSAL_COMPRAS"]));
-            services.AddDbContext<ApplicationDBContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:MOLSAL_COMPRAS"]));
+            services.AddDbContext<ApplicationDBContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:Delivery_DB"]));
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("SecretKey"));
             services.AddAuthentication(x => {
@@ -57,11 +53,8 @@ namespace API_ComprasMosal
             });
 
             services.AddScoped<UsuarioDAO, UsuarioImplement>();
-            services.AddScoped<FacturaDAO, FacturaImplement>();
-            services.AddScoped<DetalleFacturaDAO, DetalleFacturaImplement>();
-            services.AddScoped<Vw_ListadoComprasDAO, Vw_ListadoComprasImplement>();
-            services.AddScoped<Vw_DetalleCompraDAO, Vw_DetalleCompraImplement>();
-            services.AddScoped<ProveedorDAO, ProveedorImplement>();
+            services.AddScoped<DirectorioDAO, DirectorioImplement>();
+            services.AddScoped<ArticuloDAO, ArticuloImplement>();
 
             //services.AddScoped<BodegaDAO, BodegaImplement>();
 

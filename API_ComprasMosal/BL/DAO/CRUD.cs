@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_ComprasMosal.BL.DAO
+namespace API_Delivery.BL.DAO
 {
     public interface CRUD<TEntity>
     {
