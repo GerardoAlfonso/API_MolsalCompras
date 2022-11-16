@@ -49,7 +49,7 @@ namespace API_Delivery.BL.Implement
             DBEntity.idArticulo = entity.idArticulo;
             DBEntity.idArticulo = entity.idArticulo;
             DBEntity.Nombre = entity.Nombre;
-            DBEntity.Descripcion = entity.Descripcion;
+            DBEntity.Descripción = entity.Descripción;
             DBEntity.Existencia = entity.Existencia;
             DBEntity.precio = entity.precio;
             DBEntity.Estado = entity.Estado;

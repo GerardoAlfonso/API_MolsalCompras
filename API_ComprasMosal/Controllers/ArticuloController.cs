@@ -21,14 +21,14 @@ namespace API_Delivery.Controllers
         }
 
         [HttpGet]
-        [Route("GetArticulo")]
-        public IActionResult GetArticulo()
+        [Route("GetArticulos")]
+        public IActionResult GetArticulos()
         {
-            List<Articulo> Articulo = new List<Articulo>();
+            List<Articulo> articulos = new List<Articulo>();
             try
             {
-                Articulo = articuloDAO.GetAllActive();
-                return Ok();
+                articulos = articuloDAO.GetAllActive();
+                return Ok(articulos);
             }
             catch (Exception ex)
             {
@@ -37,23 +37,22 @@ namespace API_Delivery.Controllers
         }
         [HttpPost]
         [Route("UpdateArticulo")]
-        public IActionResult UpdateArticulo([FromBody] Articulo dir)
+        public IActionResult UpdateArticulo([FromBody] Articulo art)
         {
-            //Articulo directorio = directorioDAO.GetById(dir.idDirectorio);
+            Articulo articulo = articuloDAO.GetById(art.idArticulo);
             try
             {
-                //if (directorio == null)
-                //{
-                //    BadRequestDTO badRequestDTO = new BadRequestDTO();
-                //    badRequestDTO.message = "No se encontro el directorio";
-                //    return BadRequest(badRequestDTO);
-
-                //}
-                //else
-                //{
-                //    //directorioDAO.Update(directorio, dir);
-                return Ok();
-                //}
+                if (articulo == null)
+                {
+                    BadRequestDTO badRequestDTO = new BadRequestDTO();
+                    badRequestDTO.message = "No se encontro el directorio";
+                    return BadRequest(badRequestDTO);
+                }
+                else
+                {
+                    articuloDAO.Update(articulo, art);
+                    return Ok();
+                }
 
             }
             catch (Exception ex)
@@ -65,12 +64,12 @@ namespace API_Delivery.Controllers
         }
 
         [HttpPost]
-        [Route("CreateDirectorio")]
-        public IActionResult CreateDirectorio([FromBody] Articulo dir)
+        [Route("CreateArticulo")]
+        public IActionResult CreateArticulo([FromBody] Articulo dir)
         {
             try
             {
-                //int id = directorioDAO.Create(dir);
+                int id = articuloDAO.Create(dir);
                 return Ok();
 
             }
@@ -83,12 +82,12 @@ namespace API_Delivery.Controllers
         }
 
         [HttpPost]
-        [Route("DeleteDirectorio")]
-        public IActionResult DeleteDirectorio([FromBody] Articulo dir)
+        [Route("DeleteArticulo")]
+        public IActionResult DeleteArticulo([FromBody] Articulo dir)
         {
             try
             {
-                //directorioDAO.Delete(dir);
+                articuloDAO.Delete(dir);
                 return Ok();
             }
             catch (Exception ex)
